@@ -34,7 +34,7 @@ st.text("""Globally, World Mental Health Day is celebrated on October 10 each ye
 
 
 
-# datasetni streamlit orqali ko'rish
+# Dataset
 row3_spacer1, row3_1, row3_spacer2 = st.columns((.2, 7.1, .2))
 with row3_1:
     st.markdown("")
@@ -50,19 +50,22 @@ s = buffer.getvalue()
 st.text(s)
 
 
-# Filling MIssing Datas
 
+
+# Filling Missing Datas
 st.write("# _____________________PART ONE___________________     ")
 st.write("# ________________Filling Missing Datas________________ #")
 
 
-st.write("Resource Allocation Column")
+
+#RESOURCE ALLOCATION COLUMN
+st.write("# /nResource Allocation Column")
 
 df["moda_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mode())
 df["mean_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mean())
 df["median_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].median())
 
-
+colors = ['blue', 'green', 'red', 'purple']
 
 # Create the plots
 fig1, ax1 = plt.subplots()
@@ -100,11 +103,59 @@ with col4:
 
 
 
+df["Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mode())
+
+#Drop unneeded columns
+df.drop(columns="mean_Resource Allocation")
+df.drop(columns="moda_Resource Allocation")
+df.drop(columns="median_Resource Allocation")
 
 
 
 
 
+
+#Mental Fatigue Score 
+st.write("# /n Mental Fatigue Score ")
+
+df["moda_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].mode())
+df["mean_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].mean())
+df["median_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].median())
+
+colors = ['blue', 'green', 'red', 'purple']
+
+# Create the plots
+fig1, ax1 = plt.subplots()
+sns.histplot(x="Resource Allocation", data=df, kde=True, ax=ax1)
+ax1.set_title('ORGINAL')
+
+fig2, ax2 = plt.subplots()
+sns.histplot(x="mean_Resource Allocation", data=df, kde=True, ax=ax2)
+ax2.set_title('MEAN')
+
+fig3, ax3 = plt.subplots()
+sns.histplot(x="moda_Resource Allocation", data=df,kde=True, ax=ax3)
+ax3.set_title('MODA')
+
+fig4, ax4 = plt.subplots()
+sns.histplot(x="median_Resource Allocation", data=df,kde=True, ax=ax4)
+ax4.set_title('MEDIAN')
+
+# Display the plots side by side using Streamlit
+col1, col2 = st.columns(2)
+col3, col4 = st.columns(2)
+
+with col1:
+    st.pyplot(fig1)
+
+with col2:
+    st.pyplot(fig2)
+
+with col3:
+    st.pyplot(fig3)
+
+with col4:
+    st.pyplot(fig4)
 
 
 
