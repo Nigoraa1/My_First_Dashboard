@@ -8,7 +8,7 @@ import io
 
 df = pd.read_csv("main_.csv")
 
-st.write("# Burn out 🧠🤯")
+st.write("# Burning out 🧠🤯")
 
 
 # datasetning maqsadi haqida qisqacha ma'lumot
@@ -387,7 +387,7 @@ st.write("# Burn out Rate")
 
 # Create the bar plot with Seaborn
 fig1, ax1 = plt.subplots(figsize=(10, 6))
-sns.barplot(data=df, x="Gender", y="Burn Rate",hue= "Company Type", ci="sd", ax=ax1)
+sns.barplot(data=df, x="Gender", y="Burn Rate", ci="sd", ax=ax1)
 
 # Set the y-axis label
 ax1.set_ylabel("Burn out rate")
@@ -407,6 +407,9 @@ st.pyplot(fig2)
 
 
 
+
+
+
 # Display some statistics
 st.subheader('Statistics')
 st.write(filtered_data.describe())
@@ -415,9 +418,15 @@ st.write(filtered_data.describe())
 # Create a heat map of the correlations
 st.header("Heat Map of Correlations")
 
+#Create dummy variables for 'Gender' and 'WFH Setup Available'
+df = pd.get_dummies(df, columns=["Gender", "WFH Setup Available"], dtype=int)
+
+
 # Calculate the correlation matrix for specified columns
 cols = ['Designation', 'Resource Allocation', 'Mental Fatigue Score', 'Burn Rate', 'Gender_Male', 'Gender_Female']
 correlation_matrix = df[cols].corr()
+
+
 
 # Plot the heat map
 fig, ax = plt.subplots(figsize=(10, 8))
