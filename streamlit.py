@@ -15,14 +15,6 @@ df = pd.read_csv("main_.csv")
 st.write("# Burning out 🧠🤯")
 
 
-# sidebarga rasm joylashtirish
-st.sidebar.image('https://infographicjournal.com/wp-content/uploads/2021/10/remote-work-burnout.jpg',use_column_width=True)
-
-
-
-
-
-
 # datasetning maqsadi haqida qisqacha ma'lumot
 st.text("""Globally, World Mental Health Day is celebrated on October 10 each year. 
         The objective of this day is to raise awareness about mental health issues around 
@@ -32,6 +24,23 @@ st.text("""Globally, World Mental Health Day is celebrated on October 10 each ye
         pandemic situation, it becomes really hard to maintain mental fitness.""")
 
 
+# Convert 'Date of Joining' to datetime format
+df['Date of Joining'] = pd.to_datetime(df['Date of Joining'])
+
+# Function to get the season from the date
+def get_season(date):
+    month = date.month
+    if month in [12, 1, 2]:
+        return 'Winter'
+    elif month in [3, 4, 5]:
+        return 'Spring'
+    elif month in [6, 7, 8]:
+        return 'Summer'
+    else:
+        return 'Fall'
+
+# Apply the season function to the 'Date of Joining' column
+df['Season'] = df['Date of Joining'].apply(get_season)
 
 
 # Dataset
@@ -53,19 +62,14 @@ st.text(s)
 
 
 # Filling Missing Datas
-st.write("# _____________________PART ONE___________________     ")
-st.write("# ________________Filling Missing Datas________________ #")
-
-
 
 #RESOURCE ALLOCATION COLUMN
-st.write("# /nResource Allocation Column")
 
 df["moda_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mode())
 df["mean_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mean())
 df["median_Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].median())
 
-colors = ['blue', 'green', 'red', 'purple']
+
 
 # Create the plots
 fig1, ax1 = plt.subplots()
@@ -84,23 +88,40 @@ fig4, ax4 = plt.subplots()
 sns.histplot(x="median_Resource Allocation", data=df,kde=True, ax=ax4)
 ax4.set_title('MEDIAN')
 
-# Display the plots side by side using Streamlit
-col1, col2 = st.columns(2)
-col3, col4 = st.columns(2)
 
-with col1:
-    st.pyplot(fig1)
-
-with col2:
-    st.pyplot(fig2)
-
-with col3:
-    st.pyplot(fig3)
-
-with col4:
-    st.pyplot(fig4)
+# Sidebar button
+show_plots = st.sidebar.button('Resource Allocation')
 
 
+# Initialize session state if it doesn't exist
+if 'plots_visible' not in st.session_state:
+    st.session_state.plots_visible = False
+
+
+# Toggle the visibility of the plots
+if show_plots:
+    st.session_state.plots_visible = not st.session_state.plots_visible
+
+
+if show_plots:
+        st.write("#________________Filling Missing Values___________________     ")
+
+# Conditionally display the plots
+if st.session_state.plots_visible:
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
+
+    with col1:
+        st.pyplot(fig1)
+
+    with col2:
+        st.pyplot(fig2)
+
+    with col3:
+        st.pyplot(fig3)
+
+    with col4:
+        st.pyplot(fig4)
 
 
 df["Resource Allocation"] = df["Resource Allocation"].fillna(df["Resource Allocation"].mode())
@@ -115,61 +136,142 @@ df.drop(columns="median_Resource Allocation")
 
 
 
-#Mental Fatigue Score 
-st.write("# /n Mental Fatigue Score ")
+#Mental Fatigue Score COLUMN
+df["moda_Mental Fatigue Score"] = df["Mental Fatigue Score"].fillna(df["Mental Fatigue Score"].mode())
+df["mean_Mental Fatigue Score"] = df["Mental Fatigue Score"].fillna(df["Mental Fatigue Score"].mean())
+df["median_Mental Fatigue Score"] = df["Mental Fatigue Score"].fillna(df["Mental Fatigue Score"].median())
 
-df["moda_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].mode())
-df["mean_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].mean())
-df["median_Mental Fatigue Score "] = df["Mental Fatigue Score "].fillna(df["Mental Fatigue Score "].median())
-
-colors = ['blue', 'green', 'red', 'purple']
 
 # Create the plots
-fig1, ax1 = plt.subplots()
-sns.histplot(x="Resource Allocation", data=df, kde=True, ax=ax1)
+fig_1, ax_1 = plt.subplots()
+sns.histplot(x="Mental Fatigue Score", data=df, kde=True, ax=ax_1,color='purple')
 ax1.set_title('ORGINAL')
 
-fig2, ax2 = plt.subplots()
-sns.histplot(x="mean_Resource Allocation", data=df, kde=True, ax=ax2)
-ax2.set_title('MEAN')
+fig_2, ax_2 = plt.subplots()
+sns.histplot(x="mean_Mental Fatigue Score", data=df, kde=True, ax=ax_2,color='purple')
+ax_2.set_title('MEAN')
 
-fig3, ax3 = plt.subplots()
-sns.histplot(x="moda_Resource Allocation", data=df,kde=True, ax=ax3)
+fig_3, ax_3 = plt.subplots()
+sns.histplot(x="moda_Mental Fatigue Score", data=df,kde=True, ax=ax_3,color='purple')
 ax3.set_title('MODA')
 
-fig4, ax4 = plt.subplots()
-sns.histplot(x="median_Resource Allocation", data=df,kde=True, ax=ax4)
+fig_4, ax_4 = plt.subplots()
+sns.histplot(x="median_Mental Fatigue Score", data=df,kde=True, ax=ax_4,color='purple')
 ax4.set_title('MEDIAN')
 
-# Display the plots side by side using Streamlit
-col1, col2 = st.columns(2)
-col3, col4 = st.columns(2)
 
-with col1:
-    st.pyplot(fig1)
-
-with col2:
-    st.pyplot(fig2)
-
-with col3:
-    st.pyplot(fig3)
-
-with col4:
-    st.pyplot(fig4)
+# Sidebar button
+show_plots = st.sidebar.button('Mental Fatigue Score')
 
 
+# Initialize session state if it doesn't exist
+if 'plots_visible' not in st.session_state:
+    st.session_state.plots_visible = False
+
+
+# Toggle the visibility of the plots
+if show_plots:
+    st.session_state.plots_visible = not st.session_state.plots_visible
+
+
+if show_plots:
+        st.write("# ________________Filling Missing Values___________________     ")
+        
+
+# Conditionally display the plots
+if st.session_state.plots_visible:
+    col_1, col_2 = st.columns(2)
+    col_3, col_4 = st.columns(2)
+
+    with col_1:
+        st.pyplot(fig_1)
+
+    with col_2:
+        st.pyplot(fig_2)
+
+    with col_3:
+        st.pyplot(fig_3)
+
+    with col_4:
+        st.pyplot(fig_4)
+
+df["Mental Fatigue Score"] = df["Mental Fatigue Score"].fillna(df["Mental Fatigue Score"].mode())
+
+#Drop unneeded columns
+df.drop(columns="mean_Mental Fatigue Score")
+df.drop(columns="moda_Mental Fatigue Score")
+df.drop(columns="median_Mental Fatigue Score")
 
 
 
 
 
+#Burn Out Rate COLUMN
+df["moda_Burn_Rate"] = df["Burn Rate"].fillna(df["Burn Rate"].mode())
+df["mean_Burn_Rate"] = df["Burn Rate"].fillna(df["Burn Rate"].mean())
+df["median_Burn_Rate"] = df["Burn Rate"].fillna(df["Burn Rate"].median())
+
+
+# Create the plots
+fig__1, ax__1 = plt.subplots()
+sns.histplot(x="Burn Rate", data=df, kde=True, ax=ax__1,color='orange')
+ax__1.set_title('ORGINAL')
+
+fig__2, ax__2 = plt.subplots()
+sns.histplot(x="mean_Burn_Rate", data=df, kde=True, ax=ax__2,color='orange')
+ax_2.set_title('MEAN')
+
+fig__3, ax__3 = plt.subplots()
+sns.histplot(x="moda_Burn_Rate", data=df,kde=True, ax=ax__3,color='orange')
+ax__3.set_title('MODA')
+
+fig__4, ax__4 = plt.subplots()
+sns.histplot(x="median_Burn_Rate", data=df,kde=True, ax=ax__4,color='orange')
+ax__4.set_title('MEDIAN')
+
+
+# Sidebar button
+show_plotss = st.sidebar.button('Burn Rate')
+
+
+# Initialize session state if it doesn't exist
+if 'plots_visible' not in st.session_state:
+    st.session_state.plots_visible = False
+
+
+# Toggle the visibility of the plots
+if show_plotss:
+    st.session_state.plots_visible = not st.session_state.plots_visible
+
+
+if show_plotss:
+        st.write("# ________________Filling Missing Values___________________     ")
+
+# Conditionally display the plots
+if st.session_state.plots_visible:
+    col__1, col__2 = st.columns(2)
+    col__3, col__4 = st.columns(2)
+
+    with col__1:
+        st.pyplot(fig__1)
+
+    with col__2:
+        st.pyplot(fig__2)
+
+    with col__3:
+        st.pyplot(fig__3)
+
+    with col__4:
+        st.pyplot(fig__4)
 
 
 
+df["Burn Rate"] = df["Burn Rate"].fillna(df["Burn Rate"].mode())
 
-
-
-
+#Drop unneeded columns
+df.drop(columns="mean_Burn_Rate")
+df.drop(columns="moda_Burn_Rate")
+df.drop(columns="median_Burn_Rate")
 
 
 
@@ -201,8 +303,6 @@ st.pyplot(fig2)
 
 
 
-
-
 # 'WFH Setup Available' 'Yes' bo'lganda filtrlash
 filtered_data = df[df['WFH Setup Available'] == 'Yes']
 
@@ -214,22 +314,123 @@ female_data = filtered_data[filtered_data['Gender'] == 'Female']
 
 
 
-# Streamlit konfiguratsiyasi
-st.title("Burn Rate Analysis by Gender")
-st.write("Comparing Burn Rate between Male and Female")
+# Filter by Gender
+gender_filter = st.sidebar.multiselect(
+    'Select Gender:',
+    options=df['Gender'].unique(),
+    default=df['Gender'].unique()
+)
 
-# Burn Rate ni chizish
-fig, ax = plt.subplots(figsize=(10, 6))
+# Filter by Company Type
+company_filter = st.sidebar.multiselect(
+    'Select Company Type:',
+    options=df['Company Type'].unique(),
+    default=df['Company Type'].unique()
+)
 
-ax.hist(male_data['Burn Rate'], bins=20, alpha=0.5, label='Male')
-ax.hist(female_data['Burn Rate'], bins=20, alpha=0.5, label='Female')
 
-ax.set_xlabel('Burn Rate')
-ax.set_ylabel('Frequency')
-ax.set_title('Burn Rate DFrequency')
-ax.legend()
+# Visualization: Burn Rate by Designation
+st.subheader('Burn Rate by Designation')
+burn_rate_by_designation = filtered_data.groupby('Designation')['Burn Rate'].mean()
+st.bar_chart(burn_rate_by_designation)
 
-st.pyplot(fig)
+# Visualization: Average Resource Allocation by Company Type
+st.subheader('Average Resource Allocation by Company Type')
+resource_allocation_by_company = filtered_data.groupby('Company Type')['Resource Allocation'].mean()
+st.bar_chart(resource_allocation_by_company)
+
+# Pie charts for Male and Female distribution
+st.subheader('Gender Distribution')
+
+# Data for pie charts
+male_data = filtered_data[filtered_data['Gender'] == 'Male']
+female_data = filtered_data[filtered_data['Gender'] == 'Female']
+
+# Create columns for side-by-side charts
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader('Male Employees Distribution')
+    fig1, ax1 = plt.subplots()
+    ax1.pie(male_data['Company Type'].value_counts(), labels=male_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig1)
+
+with col2:
+    st.subheader('Female Employees Distribution')
+    fig2, ax2 = plt.subplots()
+    ax2.pie(female_data['Company Type'].value_counts(), labels=female_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
+    ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig2)
+
+# Display some statistics
+st.subheader('Statistics')
+st.write(filtered_data.describe())
+
+
+
+# Line plot of Resource Allocation by Season
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader('Resource Allocation by Season')
+    resource_allocation_by_season = filtered_data.groupby('Season')['Resource Allocation'].mean().reindex(['Spring', 'Summer', 'Autumn', 'Winter'])
+    fig3, ax3 = plt.subplots()
+    ax3.plot(resource_allocation_by_season.index, resource_allocation_by_season.values)
+    ax3.set_xlabel('Season')
+    ax3.set_ylabel('Average Resource Allocation')
+    ax3.set_title('Average Resource Allocation by Season')
+    st.pyplot(fig3)
+
+
+with col2:
+    st.subheader('Burn Rate by Season')
+    burn_rate_by_season = filtered_data.groupby('Season')['Burn Rate'].mean().reindex(['Spring', 'Summer', 'Autumn', 'Winter'])
+    fig4, ax4 = plt.subplots()
+    ax4.plot(burn_rate_by_season.index, burn_rate_by_season.values, marker='o')
+    ax4.set_xlabel('Season')
+    ax4.set_ylabel('Average Burn Rate')
+    ax4.set_title('Average Burn Rate by Season')
+    st.pyplot(fig4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -254,5 +455,3 @@ st.pyplot(fig)
 #ax.set_zlabel('Burn Rate')
 #
 #st.pyplot(fig)
-
-
