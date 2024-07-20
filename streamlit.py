@@ -20,8 +20,6 @@ st.text("""Globally, World Mental Health Day is celebrated on October 10 each ye
         pandemic situation, it becomes really hard to maintain mental fitness.""")
 
 
-
-
 # Convert 'Date of Joining' to datetime format
 df['Date of Joining'] = pd.to_datetime(df['Date of Joining'])
 
@@ -353,7 +351,6 @@ st.bar_chart(resource_allocation_by_company)
 
  
 
- 
 
 
 
@@ -406,8 +403,6 @@ ax2.set_xlabel('WFH Setup Available')
 ax2.set_ylabel('Burn Rate')
 ax2.set_title('Burn Rate by WFH Setup and Gender')
 st.pyplot(fig2)
-
-
 
 
 
