@@ -20,6 +20,8 @@ st.text("""Globally, World Mental Health Day is celebrated on October 10 each ye
         pandemic situation, it becomes really hard to maintain mental fitness.""")
 
 
+
+
 # Convert 'Date of Joining' to datetime format
 df['Date of Joining'] = pd.to_datetime(df['Date of Joining'])
 
@@ -387,7 +389,7 @@ st.write("# Burn out Rate")
 
 # Create the bar plot with Seaborn
 fig1, ax1 = plt.subplots(figsize=(10, 6))
-sns.barplot(data=df, x="Gender", y="Burn Rate", ci="sd", ax=ax1)
+sns.barplot(data=df, x="Gender", y="Burn Rate",hue="Company Type", ci="sd", ax=ax1)
 
 # Set the y-axis label
 ax1.set_ylabel("Burn out rate")
