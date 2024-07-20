@@ -8,7 +8,7 @@ from streamlit_image_select import image_select
 import yfinance as yf
 import streamlit as st
 import io
-
+import plotly.express as px
 
 df = pd.read_csv("main_.csv")
 
@@ -275,31 +275,6 @@ df.drop(columns="median_Burn_Rate")
 
 
 
-# Ayol va erkaklarni Burn Rate umumiy bar charda korsatish
-st.write("# Burn out Rate")
-men = df[df["Gender"] == "Male"]
-women = df[df["Gender"] == "Female"]
-
-
-fig1, ax1 = plt.subplots(figsize=(10, 6))
-ax1.bar("Male",
-        men["Burn Rate"].mean(),
-        yerr=men["Burn Rate"].std())
-ax1.bar("Female",
-        women["Burn Rate"].mean(),
-        yerr=women["Burn Rate"].std())
-ax1.set_ylabel("Burn out rate")
-st.pyplot(fig1)
-
-
-
-
-fig2, ax2 = plt.subplots(figsize=(10, 6))
-sns.barplot(x="WFH Setup Available", y="Burn Rate", data=df, hue="Gender", ax=ax2)
-ax2.set_xlabel('WFH Setup Available')
-ax2.set_ylabel('Burn Rate')
-ax2.set_title('Burn Rate by WFH Setup and Gender')
-st.pyplot(fig2)
 
 
 
@@ -334,13 +309,58 @@ st.subheader('Burn Rate by Designation')
 burn_rate_by_designation = filtered_data.groupby('Designation')['Burn Rate'].mean()
 st.bar_chart(burn_rate_by_designation)
 
+
+
+
+# Visualization: Designation by Resource Allocation
+st.subheader('Designation by Resource Allocation')
+Designation_by_Resource_Allocation = filtered_data.groupby('Resource Allocation')['Designation'].mean()
+st.bar_chart(Designation_by_Resource_Allocation)
+
+
+
+
+# Calculate average Burn Rate and Resource Allocation by Season
+avg_burn_rate_by_season = df.groupby('Season')['Burn Rate'].mean()
+avg_resource_allocation_by_season = df.groupby('Season')['Resource Allocation'].mean()
+
+
+
+# Plotting the line plots side by side
+fig, ax = plt.subplots(1, 2, figsize=(18, 9))
+
+# Line plot for Burn Rate by Season
+ax[0].plot(avg_burn_rate_by_season.index, avg_burn_rate_by_season.values, marker='o', linestyle='-')
+ax[0].set_title('Average Burn Rate by Season')
+ax[0].set_xlabel('Season')
+ax[0].set_ylabel('Average Burn Rate')
+ax[0].grid(True)
+
+# Line plot for Resource Allocation by Season
+ax[1].plot(avg_resource_allocation_by_season.index, avg_resource_allocation_by_season.values, marker='o', linestyle='-')
+ax[1].set_title('Average Resource Allocation by Season')
+ax[1].set_xlabel('Season')
+ax[1].set_ylabel('Average Resource Allocation')
+ax[1].grid(True)
+
+st.pyplot(fig)
+
+
+
+
 # Visualization: Average Resource Allocation by Company Type
 st.subheader('Average Resource Allocation by Company Type')
 resource_allocation_by_company = filtered_data.groupby('Company Type')['Resource Allocation'].mean()
 st.bar_chart(resource_allocation_by_company)
 
+ 
+
+ 
+
+
+
 # Pie charts for Male and Female distribution
-st.subheader('Gender Distribution')
+st.subheader('Gender Destribution')
 
 # Data for pie charts
 male_data = filtered_data[filtered_data['Gender'] == 'Male']
@@ -350,61 +370,69 @@ female_data = filtered_data[filtered_data['Gender'] == 'Female']
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader('Male Employees Distribution')
+    st.subheader('Male Employees Destribution')
     fig1, ax1 = plt.subplots()
     ax1.pie(male_data['Company Type'].value_counts(), labels=male_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig1)
 
 with col2:
-    st.subheader('Female Employees Distribution')
+    st.subheader('Female Employees Destribution')
     fig2, ax2 = plt.subplots()
     ax2.pie(female_data['Company Type'].value_counts(), labels=female_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
     ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig2)
 
+
+
+
+# 
+st.write("# Burn out Rate")
+
+# Create the bar plot with Seaborn
+fig1, ax1 = plt.subplots(figsize=(10, 6))
+sns.barplot(data=df, x="Gender", y="Burn Rate",hue= "Company Type", ci="sd", ax=ax1)
+
+# Set the y-axis label
+ax1.set_ylabel("Burn out rate")
+
+# Show the plot
+st.pyplot(fig1)
+
+
+
+
+fig2, ax2 = plt.subplots(figsize=(10, 6))
+sns.barplot(x="WFH Setup Available", y="Burn Rate", data=df, ax=ax2)
+ax2.set_xlabel('WFH Setup Available')
+ax2.set_ylabel('Burn Rate')
+ax2.set_title('Burn Rate by WFH Setup and Gender')
+st.pyplot(fig2)
+
+
+
 # Display some statistics
 st.subheader('Statistics')
 st.write(filtered_data.describe())
 
+# Create dummy variables for 'Gender' and 'WFH Setup Available'
+df = pd.get_dummies(df, columns=["Gender", "WFH Setup Available"], dtype=int)
 
+# Reset the DataFrame index
+df = df.reset_index(drop=True)
 
-# Line plot of Resource Allocation by Season
+# Create a heat map of the correlations
+st.header("Heat Map of Correlations")
 
-col1, col2 = st.columns(2)
+# Calculate the correlation matrix for specified columns
+cols = ['Designation', 'Resource Allocation', 'Mental Fatigue Score', 'Burn Rate', 'Gender_Male', 'Gender_Female']
+correlation_matrix = df[cols].corr()
 
-with col1:
-    st.subheader('Resource Allocation by Season')
-    resource_allocation_by_season = filtered_data.groupby('Season')['Resource Allocation'].mean().reindex(['Spring', 'Summer', 'Autumn', 'Winter'])
-    fig3, ax3 = plt.subplots()
-    ax3.plot(resource_allocation_by_season.index, resource_allocation_by_season.values)
-    ax3.set_xlabel('Season')
-    ax3.set_ylabel('Average Resource Allocation')
-    ax3.set_title('Average Resource Allocation by Season')
-    st.pyplot(fig3)
-
-
-with col2:
-    st.subheader('Burn Rate by Season')
-    burn_rate_by_season = filtered_data.groupby('Season')['Burn Rate'].mean().reindex(['Spring', 'Summer', 'Autumn', 'Winter'])
-    fig4, ax4 = plt.subplots()
-    ax4.plot(burn_rate_by_season.index, burn_rate_by_season.values, marker='o')
-    ax4.set_xlabel('Season')
-    ax4.set_ylabel('Average Burn Rate')
-    ax4.set_title('Average Burn Rate by Season')
-    st.pyplot(fig4)
-
-
-
-
-
-
-
-
-
-
-
-
+# Plot the heat map
+fig, ax = plt.subplots(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='YlGnBu', ax=ax)
+ax.set_title('Correlation Heat Map')
+st.pyplot(fig)
 
 
 
