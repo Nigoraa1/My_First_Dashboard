@@ -1,14 +1,10 @@
 import streamlit as st
 import pandas as pd
-import time
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
-from streamlit_image_select import image_select
-import yfinance as yf
 import streamlit as st
 import io
-import plotly.express as px
+
 
 df = pd.read_csv("main_.csv")
 
