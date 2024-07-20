@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 import io
- ##
+
 
 df = pd.read_csv("main_.csv")
 
-st.write("# Burning out 🧠🤯")
+st.write("# Burn out 🧠🤯")
 
 
 # datasetning maqsadi haqida qisqacha ma'lumot
@@ -411,11 +411,6 @@ st.pyplot(fig2)
 st.subheader('Statistics')
 st.write(filtered_data.describe())
 
-# Create dummy variables for 'Gender' and 'WFH Setup Available'
-df = pd.get_dummies(df, columns=["Gender", "WFH Setup Available"], dtype=int)
-
-# Reset the DataFrame index
-df = df.reset_index(drop=True)
 
 # Create a heat map of the correlations
 st.header("Heat Map of Correlations")
@@ -429,6 +424,18 @@ fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap='YlGnBu', ax=ax)
 ax.set_title('Correlation Heat Map')
 st.pyplot(fig)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
