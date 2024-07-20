@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import io
 
 
 df = pd.read_csv("main_.csv")
@@ -47,11 +46,11 @@ with row3_1:
         st.dataframe(data=df.reset_index(drop=True))
 
 
-buffer = io.StringIO()
-df.info(buf=buffer)
-s = buffer.getvalue()
+# buffer = io.StringIO()
+# df.info(buf=buffer)
+# s = buffer.getvalue()
 
-st.text(s)
+# st.text(s)
 
 
 
