@@ -385,7 +385,7 @@ st.write("# Burn out Rate")
 
 # Create the bar plot with Seaborn
 fig1, ax1 = plt.subplots(figsize=(10, 6))
-sns.barplot(data=df, x="Gender", y="Burn Rate",hue="Company Type", ci="sd", ax=ax1)
+sns.barplot(data=df, x="Gender", y="Burn Rate",hue="Company Type", errorbar="sd", ax=ax1)
 
 # Set the y-axis label
 ax1.set_ylabel("Burn out rate")
