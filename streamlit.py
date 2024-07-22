@@ -353,7 +353,7 @@ st.bar_chart(resource_allocation_by_company)
 
 
 # Pie charts for Male and Female distribution
-st.subheader('Gender Destribution')
+st.subheader('Gender Designation')
 
 # Data for pie charts
 male_data = filtered_data[filtered_data['Gender'] == 'Male']
@@ -363,14 +363,14 @@ female_data = filtered_data[filtered_data['Gender'] == 'Female']
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader('Male Employees Destribution')
+    st.subheader('Male Employees Designation')
     fig1, ax1 = plt.subplots()
     ax1.pie(male_data['Company Type'].value_counts(), labels=male_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig1)
 
 with col2:
-    st.subheader('Female Employees Destribution')
+    st.subheader('Female Employees Designation')
     fig2, ax2 = plt.subplots()
     ax2.pie(female_data['Company Type'].value_counts(), labels=female_data['Company Type'].value_counts().index, autopct='%1.1f%%', startangle=90)
     ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
