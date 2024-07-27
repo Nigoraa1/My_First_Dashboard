@@ -6,8 +6,7 @@ import seaborn as sns
 
 df = pd.read_csv("main_.csv")
 
-st.write("# Burning out 🧠🤯")
-
+st.write("# Burn out 🧠🤯")
 
 # datasetning maqsadi haqida qisqacha ma'lumot
 st.text("""Globally, World Mental Health Day is celebrated on October 10 each year. 
@@ -51,8 +50,6 @@ with row3_1:
 # s = buffer.getvalue()
 
 # st.text(s)
-
-
 
 
 # Filling Missing Datas
@@ -195,7 +192,6 @@ df["Mental Fatigue Score"] = df["Mental Fatigue Score"].fillna(df["Mental Fatigu
 df.drop(columns="mean_Mental Fatigue Score")
 df.drop(columns="moda_Mental Fatigue Score")
 df.drop(columns="median_Mental Fatigue Score")
-
 
 
 

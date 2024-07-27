@@ -1,0 +1,76 @@
+# Data Analysis and Visualization
+
+This repository contains a project that performs regression analysis on a diabetes dataset, a Streamlit app for visualizing and analyzing burnout-related data, and an exploratory data analysis notebook.
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Diabetes Regression Analysis](#diabetes-regression-analysis)
+- [Burnout Data Visualization](#burnout-data-visualization)
+- [Exploratory Data Analysis Notebook](#exploratory-data-analysis-notebook)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Project Overview
+
+This project consists of three main parts:
+1. **Regression Analysis**: Perform linear regression analysis on a diabetes dataset (`diabetes_clean.csv`) and generate regression plots for each feature against the glucose level.
+2. **Streamlit App**: A Streamlit application to visualize and analyze burnout-related data from the `main_.csv` dataset.
+3. **Exploratory Data Analysis (EDA) Notebook**: A Jupyter notebook (`streamlit.ipynb`) that provides detailed EDA of the burnout dataset.
+
+## Diabetes Regression Analysis
+
+The regression analysis script performs the following steps:
+- Load the diabetes dataset.
+- Perform linear regression for each feature against the glucose column.
+- Generate and display regression plots.
+- Output the regression formulas.
+
+### Regression Formulas
+
+For each feature in the diabetes dataset, the following regression formulas were obtained:
+
+1. **Pregnancies**: `glucose = 116.17 + 1.23*pregnancies`
+2. **Diastolic Blood Pressure**: `glucose = 103.48 + 0.25*diastolic`
+3. **Triceps Skinfold Thickness**: `glucose = 118.53 + 0.11*triceps`
+4. **Insulin**: `glucose = 113.56 + 0.09*insulin`
+5. **BMI**: `glucose = 92.21 + 0.90*bmi`
+6. **Diabetes Pedigree Function**: `glucose = 114.64 + 13.25*dpf`
+7. **Age**: `glucose = 97.08 + 0.72*age`
+8. **Diabetes**: `glucose = 109.98 + 31.28*diabetes`
+
+## Burnout Data Visualization
+
+The Streamlit app visualizes and analyzes burnout-related data from the `main_.csv` dataset. The app includes the following features:
+- Display raw data.
+- Fill missing values using mean, median, and mode.
+- Visualize various distributions and correlations in the data.
+- Filter data based on different criteria and visualize the results.
+
+## Exploratory Data Analysis Notebook
+
+The `streamlit.ipynb` notebook provides a detailed exploratory data analysis of the burnout dataset (`main_.csv`). The notebook includes:
+- Data cleaning and preprocessing steps.
+- Statistical summaries and visualizations of key variables.
+- Correlation analysis between different features.
+- Insights and observations derived from the data.
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.6 or higher
+- Streamlit
+- Jupyter Notebook
+- Pandas
+- Seaborn
+- Matplotlib
+- Statsmodels
+
+### Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
