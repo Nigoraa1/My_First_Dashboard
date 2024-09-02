@@ -1,6 +1,6 @@
 # Data Analysis and Visualization
 
-This repository contains a project that performs regression analysis on a diabetes dataset, a Streamlit app for visualizing and analyzing burnout-related data, and an exploratory data analysis notebook.
+This repository contains a project that performs regression analysis on a burn out dataset, a Streamlit app for visualizing and analyzing burnout-related data, and an exploratory data analysis notebook.
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -15,7 +15,7 @@ This repository contains a project that performs regression analysis on a diabet
 ## Project Overview
 
 This project consists of three main parts:
-1. **Regression Analysis**: Perform linear regression analysis on a diabetes dataset (`diabetes_clean.csv`) and generate regression plots for each feature against the glucose level.
+1. **Regression Analysis**: Perform linear regression analysis on a burn out dataset and generate regression plots for each feature against the age.
 2. **Streamlit App**: A Streamlit application to visualize and analyze burnout-related data from the `main_.csv` dataset.
 3. **Exploratory Data Analysis (EDA) Notebook**: A Jupyter notebook (`streamlit.ipynb`) that provides detailed EDA of the burnout dataset.
 
